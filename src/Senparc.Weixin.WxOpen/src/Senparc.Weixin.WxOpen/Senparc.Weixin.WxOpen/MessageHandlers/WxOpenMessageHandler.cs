@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2019 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：WxOpenMessageHandler.cs
     文件功能描述：小程序MessageHandler
@@ -188,7 +188,8 @@ namespace Senparc.Weixin.WxOpen.MessageHandlers
 
             XDocument decryptDoc = postDataDocument;
 
-            if (_postModel != null && postDataDocument.Root.Element("Encrypt") != null && !string.IsNullOrEmpty(postDataDocument.Root.Element("Encrypt").Value))
+            if (_postModel != null && !_postModel.Token.IsNullOrWhiteSpace()
+                && postDataDocument.Root.Element("Encrypt") != null && !string.IsNullOrEmpty(postDataDocument.Root.Element("Encrypt").Value))
             {
                 //使用了加密
                 UsingEcryptMessage = true;

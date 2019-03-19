@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：CustomMessageContext.cs
     文件功能描述：微信消息上下文
@@ -8,7 +8,7 @@
     创建标识：Senparc - 20150312
 ----------------------------------------------------------------*/
 
-//PDBMARK_FILE MP
+//DPBMARK_FILE MP
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
 
     文件名：WeixinController.cs
     文件功能描述：用于处理微信回调的信息
@@ -8,7 +8,7 @@
     创建标识：Senparc - 20150312
 ----------------------------------------------------------------*/
 
-//PDBMARK_FILE MP
+//DPBMARK_FILE MP
 using System;
 using System.IO;
 
@@ -19,6 +19,7 @@ namespace Senparc.Weixin.MP.CoreSample.Controllers
 {
     using Microsoft.Extensions.Options;
     using Senparc.CO2NET.HttpUtility;
+    using Senparc.CO2NET.Utilities;
     using Senparc.Weixin.Entities;
     using Senparc.Weixin.HttpUtility;
     using Senparc.Weixin.MP.MvcExtension;
@@ -31,7 +32,7 @@ namespace Senparc.Weixin.MP.CoreSample.Controllers
         public static readonly string EncodingAESKey = Config.SenparcWeixinSetting.EncodingAESKey;//与微信公众账号后台的EncodingAESKey设置保持一致，区分大小写。
         public static readonly string AppId = Config.SenparcWeixinSetting.WeixinAppId;//与微信公众账号后台的AppId设置保持一致，区分大小写。
 
-        readonly Func<string> _getRandomFileName = () => DateTime.Now.ToString("yyyyMMdd-HHmmss") + Guid.NewGuid().ToString("n").Substring(0, 6);
+        readonly Func<string> _getRandomFileName = () => SystemTime.Now.ToString("yyyyMMdd-HHmmss") + Guid.NewGuid().ToString("n").Substring(0, 6);
 
         SenparcWeixinSetting _senparcWeixinSetting;
 
@@ -97,7 +98,7 @@ namespace Senparc.Weixin.MP.CoreSample.Controllers
             try
             {
                 messageHandler.SaveRequestMessageLog();//记录 Request 日志（可选）
-                
+
                 messageHandler.Execute();//执行微信处理过程（关键）
 
                 messageHandler.SaveResponseMessageLog();//记录 Response 日志（可选）
@@ -111,7 +112,7 @@ namespace Senparc.Weixin.MP.CoreSample.Controllers
                 #region 异常处理
                 WeixinTrace.Log("MessageHandler错误：{0}", ex.Message);
 
-                using (TextWriter tw = new StreamWriter(Server.GetMapPath("~/App_Data/Error_" + _getRandomFileName() + ".txt")))
+                using (TextWriter tw = new StreamWriter(ServerUtility.ContentRootMapPath("~/App_Data/Error_" + _getRandomFileName() + ".txt")))
                 {
                     tw.WriteLine("ExecptionMessage:" + ex.Message);
                     tw.WriteLine(ex.Source);
@@ -181,12 +182,12 @@ namespace Senparc.Weixin.MP.CoreSample.Controllers
         public ActionResult ForTest()
         {
             //异步并发测试（提供给单元测试使用）
-            DateTime begin = DateTime.Now;
+            var begin = SystemTime.Now;
             int t1, t2, t3;
             System.Threading.ThreadPool.GetAvailableThreads(out t1, out t3);
             System.Threading.ThreadPool.GetMaxThreads(out t2, out t3);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.5));
-            DateTime end = DateTime.Now;
+            var end = SystemTime.Now;
             var thread = System.Threading.Thread.CurrentThread;
             var result = string.Format("TId:{0}\tApp:{1}\tBegin:{2:mm:ss,ffff}\tEnd:{3:mm:ss,ffff}\tTPool：{4}",
                     thread.ManagedThreadId,

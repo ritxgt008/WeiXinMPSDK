@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：KFApi.cs
     文件功能描述：发送客服消息
@@ -12,6 +12,10 @@
 
     修改标识：Senparc - 20170712
     修改描述：v14.5.1 AccessToken HandlerWaper改造
+
+    修改标识：Senparc - 20190129
+    修改描述：统一 CommonJsonSend.Send<T>() 方法请求接口
+
  
 ----------------------------------------------------------------*/
 
@@ -23,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Senparc.NeuChar;
+using Senparc.Weixin.CommonAPIs;
 using Senparc.Weixin.Entities;
 using Senparc.Weixin.Work.AdvancedAPIs.KF;
 using Senparc.Weixin.Work.CommonAPIs;

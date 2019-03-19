@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2019 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：MessageHandlerAsync.cs
     文件功能描述：微信请求【异步方法】的集中处理方法
@@ -46,6 +46,7 @@ using System.Collections.Generic;
 using Senparc.CO2NET.Extensions;
 using Senparc.CO2NET.Trace;
 using Senparc.NeuChar.Entities;
+using System.Threading;
 
 namespace Senparc.Weixin.MP.MessageHandlers
 {
@@ -75,7 +76,7 @@ namespace Senparc.Weixin.MP.MessageHandlers
         /// <summary>
         /// 【异步方法】执行微信请求
         /// </summary>
-        public override async Task BuildResponseMessageAsync()
+        public override async Task BuildResponseMessageAsync(CancellationToken cancellationToken)
         {
             #region NeuChar 执行过程
 
@@ -152,7 +153,7 @@ namespace Senparc.Weixin.MP.MessageHandlers
         /// 【异步方法】OnExecutingAsync()
         /// </summary>
         /// <returns></returns>
-        public override async Task OnExecutingAsync()
+        public override async Task OnExecutingAsync(CancellationToken cancellationToken)
         {
             //已放入Init()方法中
             //#region 消息去重
@@ -184,7 +185,7 @@ namespace Senparc.Weixin.MP.MessageHandlers
 
             //#endregion
 
-            await base.OnExecutingAsync();
+            await base.OnExecutingAsync(cancellationToken);
 
             //判断是否已经接入开发者信息
             if (DeveloperInfo != null || CurrentMessageContext.AppStoreState == AppStoreState.Enter)
@@ -197,9 +198,9 @@ namespace Senparc.Weixin.MP.MessageHandlers
         /// 【异步方法】OnExecutedAsync()
         /// </summary>
         /// <returns></returns>
-        public override async Task OnExecutedAsync()
+        public override async Task OnExecutedAsync(CancellationToken cancellationToken)
         {
-            await base.OnExecutedAsync();
+            await base.OnExecutedAsync(cancellationToken);
         }
 
     }

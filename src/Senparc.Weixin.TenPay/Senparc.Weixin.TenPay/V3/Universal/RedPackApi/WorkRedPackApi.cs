@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2019 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
   
     文件名：WorkRedPackApi.cs
     文件功能描述：企业红包接口
@@ -27,6 +27,8 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
     
     创建标识：Senparc - 20181009
 
+    修改标识：Senparc - 20181226
+    修改描述：v1.1.1 修改 DateTime 为 DateTimeOffset
 ----------------------------------------------------------------*/
 
 using System;
@@ -52,7 +54,7 @@ namespace Senparc.Weixin.TenPay.V3
         private static string GetNewBillNo(string mchId)
         {
             //return string.Format("{0}{1}{2}", mchId, DateTime.Now.ToString("yyyyMMdd"), TenPayV3Util.BuildRandomStr(10));
-            return string.Format("{0}{1}", DateTime.Now.ToString("yyyyMMddHHmmssfff"), TenPayV3Util.BuildRandomStr(3));
+            return string.Format("{0}{1}", SystemTime.Now.ToString("yyyyMMddHHmmssfff"), TenPayV3Util.BuildRandomStr(3));
         }
 
         #region 错误码

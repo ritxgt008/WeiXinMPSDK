@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2018 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2019 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：MessageHandler.cs
     文件功能描述：微信请求的集中处理方法
@@ -53,6 +53,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 
 ----------------------------------------------------------------*/
 
+using Senparc.CO2NET.Extensions;
 using Senparc.NeuChar;
 using Senparc.NeuChar.ApiHandlers;
 using Senparc.NeuChar.Context;
@@ -133,8 +134,8 @@ namespace Senparc.Weixin.MP.MessageHandlers
                     return ResponseDocument;
                 }
 
-                var timeStamp = DateTime.Now.Ticks.ToString();
-                var nonce = DateTime.Now.Ticks.ToString();
+                var timeStamp = SystemTime.Now.Ticks.ToString();
+                var nonce = SystemTime.Now.Ticks.ToString();
 
                 WXBizMsgCrypt msgCrype = new WXBizMsgCrypt(_postModel.Token, _postModel.EncodingAESKey, _postModel.AppId);
                 string finalResponseXml = null;
@@ -275,7 +276,8 @@ namespace Senparc.Weixin.MP.MessageHandlers
 
             XDocument decryptDoc = postDataDocument;
 
-            if (_postModel != null && postDataDocument.Root.Element("Encrypt") != null && !string.IsNullOrEmpty(postDataDocument.Root.Element("Encrypt").Value))
+            if (_postModel != null && !_postModel.Token.IsNullOrWhiteSpace()
+                && postDataDocument.Root.Element("Encrypt") != null && !string.IsNullOrEmpty(postDataDocument.Root.Element("Encrypt").Value))
             {
                 //使用了加密
                 UsingEcryptMessage = true;

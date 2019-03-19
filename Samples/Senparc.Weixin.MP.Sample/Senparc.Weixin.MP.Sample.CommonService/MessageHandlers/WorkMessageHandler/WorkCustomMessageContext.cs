@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
     
     文件名：WorkCustomMessageContext.cs
     文件功能描述：企业号消息上下文
@@ -8,7 +8,7 @@
     创建标识：Senparc - 20150312
 ----------------------------------------------------------------*/
 
-//PDBMARK_FILE Work
+//DPBMARK_FILE Work
 using System;
 using System.Collections.Generic;
 using System.Linq;

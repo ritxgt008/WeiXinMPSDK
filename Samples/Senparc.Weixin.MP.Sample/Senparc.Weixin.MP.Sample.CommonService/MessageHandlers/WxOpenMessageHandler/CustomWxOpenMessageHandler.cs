@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2018 Senparc
+    Copyright (C) 2019 Senparc
 
     文件名：CustomMessageHandler.cs
     文件功能描述：微信公众号自定义MessageHandler
@@ -8,7 +8,7 @@
     创建标识：Senparc - 20150312
 ----------------------------------------------------------------*/
 
-//PDBMARK_FILE MiniProgram
+//DPBMARK_FILE MiniProgram
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +20,7 @@ using Senparc.Weixin.WxOpen.Entities.Request;
 using Senparc.Weixin.MP.Sample.CommonService.Utilities;
 using Senparc.NeuChar.MessageHandlers;
 using Senparc.NeuChar.Entities;
+using Senparc.CO2NET.Utilities;
 
 #if NET45
 using System.Web.Configuration;
@@ -111,7 +112,7 @@ namespace Senparc.Weixin.MP.Sample.CommonService.WxOpenMessageHandler
             else if (contentUpper == "CARD")
             {
                 //上传封面临时素材
-                var uploadResult = MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image, Server.GetMapPath("~/Images/Logo.thumb.jpg"));
+                var uploadResult = MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image, ServerUtility.ContentRootMapPath("~/Images/Logo.thumb.jpg"));
 
                 //发送客服消息
                 Senparc.Weixin.WxOpen.AdvancedAPIs.CustomApi.SendMiniProgramPage(appId, OpenId, "欢迎使用 Senparc.Weixin SDK", "pages/websocket/websocket",

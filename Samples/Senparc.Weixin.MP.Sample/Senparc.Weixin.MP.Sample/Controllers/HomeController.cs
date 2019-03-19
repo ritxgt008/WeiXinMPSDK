@@ -22,10 +22,12 @@ using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 using Senparc.CO2NET.Cache;
 using Senparc.Weixin.Cache;
+//DPBMARK MP
 using Senparc.Weixin.MP.CommonAPIs;
-using Senparc.Weixin.MP.Containers;
+using Senparc.Weixin.MP.Containers;//DPBMARK_END
 using Senparc.Weixin.MP.Sample.CommonService.Download;
-using Senparc.Weixin.Open.CommonAPIs;
+//DPBMARK Open
+using Senparc.Weixin.Open.ComponentAPIs;//DPBMARK_END
 
 namespace Senparc.Weixin.MP.Sample.Controllers
 {
@@ -41,31 +43,36 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 var version = System.Reflection.Assembly.GetAssembly(type).GetName().Version;
                 return getDisplayVersion(version);
             };
+            TempData["SampleVersion"] = getTypeVersionInfo(this.GetType());//当前Demo的版本号
+            TempData["CO2NETVersion"] = getTypeVersionInfo(typeof(CO2NET.Config));//CO2NET版本号
+            TempData["NeuCharVersion"] = getTypeVersionInfo(typeof(Senparc.NeuChar.ApiBindInfo));//NeuChar版本号
 
-            TempData["CO2NETVersion"] = getTypeVersionInfo(typeof(CO2NET.Config));
             TempData["WeixinVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Config));
-            TempData["TenPayVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.TenPay.Register));
-            TempData["MpVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.MP.Register));
-            TempData["ExtensionVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.MP.MvcExtension.FixWeixinBugWeixinResult));
-            TempData["OpenVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Open.Register));
+            TempData["TenPayVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.TenPay.Register));//DPBMARK TenPay DPBMARK_END
+            TempData["MpVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.MP.Register));//DPBMARK MP DPBMARK_END
+            TempData["ExtensionVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.MP.MvcExtension.FixWeixinBugWeixinResult));//DPBMARK MP DPBMARK_END
+            TempData["OpenVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Open.Register));//DPBMARK Open DPBMARK_END
             //TempData["QYVersion"] = getDisplayVersion(getFileVersionInfo("Senparc.Weixin.QY.dll"));//已经停止更新
-            TempData["WorkVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Work.Register));
-            TempData["RedisCacheVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Cache.Redis.Register));
-            TempData["MemcachedCacheVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Cache.Memcached.Register));
-            TempData["WxOpenVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.WxOpen.Register));
-            TempData["WebSocketVersion"] = getTypeVersionInfo(typeof(Senparc.WebSocket.WebSocketConfig));
+            TempData["WorkVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Work.Register));//DPBMARK Work DPBMARK_END
+            TempData["RedisCacheVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Cache.Redis.Register));//DPBMARK Redis DPBMARK_END
+            TempData["MemcachedCacheVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.Cache.Memcached.Register));//DPBMARK Memcached DPBMARK_END
+            TempData["WxOpenVersion"] = getTypeVersionInfo(typeof(Senparc.Weixin.WxOpen.Register));//DPBMARK MiniProgram DPBMARK_END
+            TempData["WebSocketVersion"] = getTypeVersionInfo(typeof(Senparc.WebSocket.WebSocketConfig));//DPBMARK WebSocket DPBMARK_END
 
             //缓存
             //var containerCacheStrategy  = CacheStrategyFactory.GetContainerCacheStrategyInstance();
-            var containerCacheStrategy = ContainerCacheStrategyFactory.GetContainerCacheStrategyInstance();
+            var containerCacheStrategy = ContainerCacheStrategyFactory.GetContainerCacheStrategyInstance()/*.ContainerCacheStrategy*/;
             TempData["CacheStrategy"] = containerCacheStrategy.GetType().Name.Replace("ContainerCacheStrategy", "");
 
             //文档下载版本
-            var configHelper = new ConfigHelper(this.HttpContext);
+            var configHelper = new ConfigHelper();
             var config = configHelper.GetConfig();
             TempData["NewestDocumentVersion"] = config.Versions.First();
 
             Weixin.WeixinTrace.SendCustomLog("首页被访问", string.Format("Url：{0}\r\nIP：{1}", Request.Url, Request.UserHostName));
+
+            //获取编译时间
+            TempData["BuildTime"] = System.IO.File.GetLastWriteTime(this.GetType().Assembly.Location).ToString("yyyyMMdd.HH.mm");
 
             return View();
         }
